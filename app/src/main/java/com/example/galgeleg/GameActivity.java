@@ -2,6 +2,8 @@ package com.example.galgeleg;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,10 +29,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         spil.logStatus();
         billedeIndex = 1;
 
-
-        //tv.setText(spil.getSynligtOrd());
-        Internet async = new Internet();
-        async.execute();
+        findViewById(R.id.progressBar).setVisibility(View.GONE);
+        SharedPreferences preferences = getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        if(preferences.getBoolean("dr", false)){
+            Internet async = new Internet();
+            async.execute();
+        } else {
+            tv.setText(spil.getSynligtOrd());
+        }
 
         int[] alfaKnap = getAlfabetKnapper();
         for (int n : alfaKnap) {
